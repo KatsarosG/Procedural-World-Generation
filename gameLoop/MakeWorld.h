@@ -3,31 +3,43 @@
 #include "../setup/init.h"
 
 void makeWorld(void);
+
 void makeWorld(void) {
-    window.clear(sf::Color::Black);
-    for (int x = -offsetX/tileSize - cameraView.getSize().x/tileSize/2 + 1; x < visibleTilesX - offsetX/tileSize + cameraView.getSize().x/tileSize/2 + 1; x++) {
-        for (int y = -offsetY/tileSize - cameraView.getSize().y/tileSize/2 + 1; y < visibleTilesY - offsetY/tileSize + cameraView.getSize().y/tileSize/2 + 1; y++) {
-            float tileHeight = heightNoise.GetNoise(x, y);
-            tileHeight += 1;
-			if (tileHeight > waterLevel && tileHeight < waterLevel + 0.05) {
-				tile.setTexture(sand);
-			} else if (tileHeight > waterLevel) {
-                tile.setTexture(grass);
-            } else {
-                tile.setTexture(water);
+    renderedChunks = 0;
+    window.setView(cameraView);
+    int firstX = (cameraView.getCenter().x - cameraView.getSize().x/2)/chunkSize/tileSize-1;
+    int lastX = (cameraView.getCenter().x + cameraView.getSize().x/2)/chunkSize/tileSize+1;
+    int firstY = (cameraView.getCenter().y - cameraView.getSize().y/2)/chunkSize/tileSize-1;
+    int lastY = (cameraView.getCenter().y + cameraView.getSize().y/2)/chunkSize/tileSize+1;
+
+    for (int cx = firstX; cx < lastX; cx++){
+        if (firstX < 0) {firstX = 0;}
+        for (int cy = firstY; cy < lastY; cy++) {
+            if (cx >= -nOfChunks/2 && cy >= -nOfChunks/2 && cx < nOfChunks/2 && cy < nOfChunks/2) {
+                renderedChunks +=1;
+                for (int tx = 0; tx < chunkSize; tx++) {
+                    for (int ty = 0; ty < chunkSize; ty++) {
+                            double tileHeight = chunkArray[cx+nOfChunks/2][cy+nOfChunks/2].tile(tx, ty)->getHeight();
+                            if (tileHeight < waterLevel) {
+                                tile.setTexture(water);
+                            } else if (tileHeight <= waterLevel+0.01){
+                                tile.setTexture(sand);
+                            } else {
+                                tile.setTexture(grass);
+                            }
+                            
+                            tile.setPosition(cx*chunkSize*tileSize+tx*tileSize, cy*chunkSize*tileSize+ty*tileSize);
+
+                            tileHeight = -abs(tileHeight - waterLevel);
+                            double dark = 1.5; //[0.5-...]
+                            int incriments = 8; // [1-255]
+                            tileHeight = (floor((tileHeight+dark)*incriments))*((255/dark)/incriments);
+
+                            tile.setColor(sf::Color(tileHeight,tileHeight,tileHeight));
+                            window.draw(tile);
+                        }
+                    }  
             }
-            tile.setPosition(worldToScreenX(x),worldToScreenY(y));
-
-            tileHeight = -abs(tileHeight - waterLevel);
-            tileHeight += 1;
-            tileHeight *= 10;
-            tileHeight = floor(tileHeight);
-            tileHeight *= 15;
-            tileHeight += 119;
-
-            tile.setColor(sf::Color(tileHeight,tileHeight,tileHeight));
-            window.setView(cameraView);
-            window.draw(tile);
         }
     }
 }

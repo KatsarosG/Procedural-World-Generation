@@ -11,16 +11,24 @@
 void moveCamera(void);
 void moveCamera(void) { 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        offsetX += 10.f * mainDt / multiplier;
+        if (cameraView.getRotation() == 45) {
+            cameraView.move(-1.f*speed, -1.f*speed);
+        } else {cameraView.move(-1.f*speed, 0.f);}
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        offsetX += -10.f * mainDt / multiplier;
+        if (cameraView.getRotation() == 45) {
+            cameraView.move(1.f*speed, 1.f*speed);
+        } else {cameraView.move(1.f*speed, 0.f);}
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-        offsetY += 10.f * mainDt / multiplier;
+        if (cameraView.getRotation() == 45) {
+            cameraView.move(1.f*speed, -1.f*speed);
+        } else {cameraView.move(0.f, -1.f*speed);}
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        offsetY += -10.f * mainDt / multiplier;
+        if (cameraView.getRotation() == 45) {
+            cameraView.move(-1.f*speed, 1.f*speed);
+        } else {cameraView.move(0.f, 1.f*speed);}
     }
 
     if (event.mouseWheelScroll.delta == 1) {

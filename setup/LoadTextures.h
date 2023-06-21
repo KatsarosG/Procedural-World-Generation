@@ -31,6 +31,27 @@ void loadTextures(void) {
         system("pause");
     }
 
+    if (!shipTextureSide.loadFromFile("assets/textures/shipall.png", sf::IntRect(0, 0, 200, 200))) {
+        cout << "Texture Load Failed" <<  endl;
+        system("pause");
+    }
+    if (!shipTextureFront.loadFromFile("assets/textures/shipall.png", sf::IntRect(200, 0, 200, 200))) {
+        cout << "Texture Load Failed" <<  endl;
+        system("pause");
+    }
+    if (!shipTextureBack.loadFromFile("assets/textures/shipall.png", sf::IntRect(400, 0, 200, 200))) {
+        cout << "Texture Load Failed" <<  endl;
+        system("pause");
+    }
+    if (!shipTextureSideFront.loadFromFile("assets/textures/shipall.png", sf::IntRect(0, 200, 200, 200))) {
+        cout << "Texture Load Failed" <<  endl;
+        system("pause");
+    }
+    if (!shipTextureSideBack.loadFromFile("assets/textures/shipall.png", sf::IntRect(200, 200, 200, 200))) {
+        cout << "Texture Load Failed" <<  endl;
+        system("pause");
+    }
+
     selected.setSmooth(true);
     grass.setSmooth(true);
     sand.setSmooth(true);

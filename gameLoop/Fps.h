@@ -8,14 +8,14 @@
 
 using namespace std;
 
-void showFps(void);
-void showFps(void) {
+void CalcFps(void);
+void drawFpsText(void);
+
+void CalcFps(void) {
     float currentTime = fpsClock.getElapsedTime().asSeconds();
     int fps = 1.f / (currentTime - fpsClockLastTime);
+    if (floor(currentTime) != floor(fpsClockLastTime)) {
+        fpsText.setString("FPS: " + to_string(fps));
+    }
     fpsClockLastTime = currentTime;
-
-    //cout << fmod(currentTime, 1000) << endl;
-
-    window.setTitle("fps: " + to_string(fps));
-    
 }

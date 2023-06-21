@@ -5,28 +5,23 @@
 #include <iostream>
 
 #include "../setup/init.h"
+#include "Fps.h"
 
 using namespace std;
 
 void frameSetup(void);
+
 void frameSetup(void) {
-    //window.clear(sf::Color::Black);
-    //screenWidth = window.getSize().x;
-    //screenHeight = window.getSize().y;
+    window.clear(sf::Color::Black);
 
     visibleTilesX = ceil(cameraView.getSize().x/tileSize);
     visibleTilesY = ceil(cameraView.getSize().y/tileSize);
     
-    //visibleTilesX = ceil(screenWidth/tileSize);
-    //visibleTilesY = ceil(screenHeight/tileSize);
-
-    sf::Vector2i tempxy = sf::Mouse::getPosition(window);
-    mouse.screenX = tempxy.x;    mouse.screenY = tempxy.y;
-    mouse.worldX = screenToWorldX(mouse.screenX);
-    mouse.worldY = screenToWorldY(mouse.screenY);
-
-    //offsetX = cameraView.getCenter().x;
-    //offsetY = cameraView.getCenter().y;
+    //get mouse pos
+    mouse.screenPos = sf::Mouse::getPosition(window);
+    mouse.worldPos = screenToWorld(mouse.screenPos);
+    mouse.chunk = worldToChunk(mouse.worldPos);
 
     mainDt = DtClock.restart().asMilliseconds();
+    CalcFps();
 }
