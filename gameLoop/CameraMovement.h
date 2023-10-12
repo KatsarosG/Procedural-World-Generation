@@ -31,11 +31,11 @@ void moveCamera(void) {
         } else {cameraView.move(0.f, 1.f*speed);}
     }
 
-    if (event.mouseWheelScroll.delta == 1) {
+    if (event.mouseWheelScroll.delta == 1 || sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
         event.mouseWheelScroll.delta = 0;
         cameraView.zoom(0.9);
     }
-    if (event.mouseWheelScroll.delta == -1) {
+    if (event.mouseWheelScroll.delta == -1 || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))  {
         event.mouseWheelScroll.delta = 0;
         cameraView.zoom(1.1);
     }
